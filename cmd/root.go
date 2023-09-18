@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/dliappis/toolsofbranch/pkg"
@@ -51,7 +52,7 @@ func version(toolsfile string, gitBranch string) {
 		log.Fatalf("The current branch name [%s] in git isn't compatible with semver!\nError: %s\n", curBranchVer, err)
 	}
 
-	for toolFamily, toolData := range d.Data {
+	for toolFamily, toolData := range d.Versioned {
 		for toolName, toolConstraints := range toolData {
 			c, err := semver.NewConstraint(toolConstraints)
 			if err != nil {
@@ -65,8 +66,9 @@ func version(toolsfile string, gitBranch string) {
 	}
 
 	if Verbose {
-		fmt.Printf("Report of eligible tools based on current branch [%s]\n", gitBranch)
-		fmt.Println("=========================================================")
+		header := fmt.Sprintf("Report of eligible tools based on current branch [%s]", gitBranch)
+		fmt.Println(header)
+		fmt.Println(strings.Repeat("=", len(header)))
 	}
 	for _, tool := range compatTools {
 		fmt.Println(tool)

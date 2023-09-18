@@ -8,7 +8,8 @@ import (
 
 // Dependencies reflects the schema for the tool-versions file
 type Dependencies struct {
-	Data map[string]map[string]string `yaml:",inline"`
+	Common    []string                     `yaml:"common"`
+	Versioned map[string]map[string]string `yaml:"versioned"`
 }
 
 // ReadTools reads from a byteslice of a tool-versions compatible file into d
